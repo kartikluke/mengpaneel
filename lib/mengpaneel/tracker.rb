@@ -3,6 +3,7 @@ require "mixpanel-ruby"
 
 module Mengpaneel
   class Tracker < Mixpanel::Tracker
+    alias_method :mixpanel_track, :track
     attr_reader :token
     attr_reader :remote_ip
     attr_reader :distinct_id
@@ -72,7 +73,7 @@ module Mengpaneel
 
       properties = @properties.merge(properties)
 
-      super(distinct_id, event, properties)
+      mixpanel_track(distinct_id, event, properties)
     end
 
     %w(track_links track_forms alias set_config get_config).map(&:to_sym).each do |name|
