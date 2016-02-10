@@ -66,6 +66,14 @@ module Mengpaneel
 
       super(@distinct_id, event, properties)
     end
+    
+    def track_to_id(distinct_id, event, properties = {})
+      return if @disable_all_events || @disabled_events.include?(event)
+
+      properties = @properties.merge(properties)
+
+      super(distinct_id, event, properties)
+    end
 
     %w(track_links track_forms alias set_config get_config).map(&:to_sym).each do |name|
       define_method(name) do |*args|
